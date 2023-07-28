@@ -2,7 +2,7 @@ import json, csv
 from mp3_to_text import audio_to_transcript
 
 def correct_time_format(time):    
-    if time >= 60:
+    if time > 60:
         # time = time/60
         time = format(time/60, '.2f')
     else:
@@ -32,7 +32,7 @@ def saving_transcript(text_file_path, csv_file_path,audio):
         segment_list.append(data)
         # print(f"sentence: '{segment.get('text')}' | start: '{start}' | end: '{end}'")
     
-    print(segment_list)
+    # print(segment_list)
 
     with open(csv_file_path, 'w', newline='') as csv_file:
         writer = csv.writer(csv_file)
@@ -40,6 +40,6 @@ def saving_transcript(text_file_path, csv_file_path,audio):
         writer.writerows(segment_list)
 
 if __name__== "__main__":
-    saving_transcript("text_file.txt", "csv_text_file.csv","audio.mp3")
+    saving_transcript("text_file.txt", "csv_text_file.csv","audio1.mp3")
 
 
