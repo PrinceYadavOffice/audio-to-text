@@ -1,4 +1,5 @@
 transcriptenv
 text_file.txt
+__pycache__
 *.mp3
 *.csv
