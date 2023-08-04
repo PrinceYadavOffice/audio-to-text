@@ -1,5 +1,8 @@
 transcriptenv
 text_file.txt
+text_files
+audio
 __pycache__
 *.mp3
 *.csv
+*.xlsx

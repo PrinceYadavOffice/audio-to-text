@@ -1,5 +1,6 @@
 import json, csv
 from mp3_to_text import audio_to_transcript
+import os
 
 def correct_time_format(time):    
     if time > 60:
@@ -18,8 +19,8 @@ def fetching_transcript(audio_file):
 def saving_transcript(text_file_path, csv_file_path,audio):
     text, segments = fetching_transcript(audio)
 
-    with open(text_file_path, 'w') as file:
-        json.dump(text, file)    
+    with open(text_file_path, 'a') as file:
+        json.dump(text+'\n', file)    
 
     header = ['sentence', 'start_time', 'end_time']
     segment_list=[]
@@ -40,6 +41,15 @@ def saving_transcript(text_file_path, csv_file_path,audio):
         writer.writerows(segment_list)
 
 if __name__== "__main__":
-    saving_transcript("text_file.txt", "csv_text_file.csv","audio1.mp3")
+
+    current_directory = os.getcwd()
+    folder_path = os.path.join(current_directory, 'audio')
+    dir_list = os.listdir(folder_path)
+    print(dir_list)
+    for file in dir_list:
+        audio_file = "audio/"+file
+        saving_transcript("text_file.txt", "csv_text_file.csv",audio_file)
+
+    # saving_transcript("text_file.txt", "csv_text_file.csv","audio1.mp3")
 
 

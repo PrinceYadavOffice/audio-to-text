@@ -1,6 +1,8 @@
 from transformers import AutoTokenizer, AutoModel
 from sklearn.metrics.pairwise import cosine_similarity
-import torch
+import torch, os
+import pandas as pd
+import json
 
 
 tokenizer = AutoTokenizer.from_pretrained('sentence-transformers/bert-base-nli-mean-tokens')
@@ -46,17 +48,41 @@ def sentence_similarity(sentences):
 
 
 
+
 sentences = [
-    "How to make pizza at home?",
-    "The best pizza recipe ever!",
-    "fruit delivery near you.",
-    "Make pizza in 30 minutes.",
-    "Try these items toppings.",
-    "Why pizza is everyone's favorite.",
+    "what is going on with threads"
 ]
+
+
+current_directory = os.getcwd()
+folder_path = os.path.join(current_directory, 'text_files')
+dir_list = os.listdir(folder_path)
+print(dir_list)
+
+for text_file in dir_list:
+    text_file_path = "text_files/"+text_file
+    with open(text_file_path, 'r') as file:
+        contents = file.read()
+        sentences.append(contents)
+
+print(len(sentences))
 
 result = sentence_similarity(sentences)
 
+#creating data for excel
+data_dict=dict(zip(dir_list, result.items()))
+
+df = pd.DataFrame.from_dict(data_dict, orient='index', columns=['Sentence', 'similarity_value'])
+df.insert(0, 'audio-file-slug', df.index)
+df = df.sort_values(by = 'similarity_value',ascending = False)
+
+most_similar_audio_file = df.iloc[0,0]
+print(f"similar audio: {most_similar_audio_file}")
+# Save the DataFrame to Excel
+# df = pd.DataFrame(list(result.items()), columns=['Sentence', 'similarity'])
+output_file = 'output.xlsx'
+df.to_excel(output_file, index=False)
+
 
 for key, value in result.items():
-    print(f"key: {key} value: {value}")
+    print(f"value: {value}")
