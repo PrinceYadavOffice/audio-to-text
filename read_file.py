@@ -19,8 +19,8 @@ def fetching_transcript(audio_file):
 def saving_transcript(text_file_path, csv_file_path,audio):
     text, segments = fetching_transcript(audio)
 
-    with open(text_file_path, 'a') as file:
-        json.dump(text+'\n', file)    
+    with open(text_file_path, 'w') as file:
+        json.dump(text, file)    
 
     header = ['sentence', 'start_time', 'end_time']
     segment_list=[]
@@ -48,7 +48,11 @@ if __name__== "__main__":
     print(dir_list)
     for file in dir_list:
         audio_file = "audio/"+file
-        saving_transcript("text_file.txt", "csv_text_file.csv",audio_file)
+        file = file.split('.')[0]
+        text_file = "transcripts/"+file+".txt"
+        text_file_with_time = "csv_text_files/"+file+".csv"
+        saving_transcript(text_file, text_file_with_time,audio_file)
+        # print(f"audio_path: {audio_file} \n text_file: {text_file} \n text_file_with_time : {text_file_with_time}")
 
     # saving_transcript("text_file.txt", "csv_text_file.csv","audio1.mp3")
 
