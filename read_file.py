@@ -19,7 +19,7 @@ def fetching_transcript(audio_file):
 def saving_transcript(text_file_path, csv_file_path,audio):
     text, segments = fetching_transcript(audio)
 
-    with open(text_file_path, 'w') as file:
+    with open(text_file_path, 'w+') as file:
         json.dump(text, file)    
 
     header = ['sentence', 'start_time', 'end_time']
@@ -35,7 +35,7 @@ def saving_transcript(text_file_path, csv_file_path,audio):
     
     # print(segment_list)
 
-    with open(csv_file_path, 'w', newline='') as csv_file:
+    with open(csv_file_path, 'w+', newline='') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(header)
         writer.writerows(segment_list)
@@ -44,13 +44,13 @@ if __name__== "__main__":
 
     current_directory = os.getcwd()
     folder_path = os.path.join(current_directory, 'audio')
-    dir_list = os.listdir(folder_path)
+    dir_list = os.listdir(folder_path)[:21] #[:21], [21:41], [41:61], [61:81], [81:101]
     print(dir_list)
     for file in dir_list:
         audio_file = "audio/"+file
         file = file.split('.')[0]
         text_file = "transcripts/"+file+".txt"
-        text_file_with_time = "csv_text_files/"+file+".csv"
+        text_file_with_time = "csv_transcripts_files/"+file+".csv"
         saving_transcript(text_file, text_file_with_time,audio_file)
         # print(f"audio_path: {audio_file} \n text_file: {text_file} \n text_file_with_time : {text_file_with_time}")
 
