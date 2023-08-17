@@ -8,6 +8,6 @@ def audio_to_transcript(audio_path):
     result = model.transcribe(audio_path, word_timestamps=True)
     end = time.time()
     print(f'Finished Conversion ..... Time : {end}')
-    print(f'Total Time : {end-start}')
+    print(f'Total Time : {(end-start)/60}')
     return result
 
