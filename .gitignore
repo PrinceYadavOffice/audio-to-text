@@ -2,11 +2,10 @@ transcriptenv
 openaienv
 text_file.txt
 text_files
-audio
 transcripts/*
 csv_transcripts_files/*
 __pycache__
-*.mp3
+
 *.csv
 *.xlsx
 output.txt
