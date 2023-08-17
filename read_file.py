@@ -41,7 +41,10 @@ def saving_transcript(text_file_path, csv_file_path,audio):
         writer.writerows(segment_list)
 
 if __name__== "__main__":
-
+    command = "mkdir transcripts csv_transcripts_files"
+    if not (os.path.exists('transcripts') and os.path.exists('csv_transcripts_files')):    
+        os.system(command)
+        
     current_directory = os.getcwd()
     folder_path = os.path.join(current_directory, 'audio')
     dir_list = os.listdir(folder_path)[:21] #[:21], [21:41], [41:61], [61:81], [81:101]
@@ -52,8 +55,8 @@ if __name__== "__main__":
         text_file = "transcripts/"+file+".txt"
         text_file_with_time = "csv_transcripts_files/"+file+".csv"
         saving_transcript(text_file, text_file_with_time,audio_file)
-        # print(f"audio_path: {audio_file} \n text_file: {text_file} \n text_file_with_time : {text_file_with_time}")
 
-    # saving_transcript("text_file.txt", "csv_text_file.csv","audio1.mp3")
+    delete_directory = "rm -r transcripts csv_transcripts_files"
+    os.system(delete_directory)
 
 
