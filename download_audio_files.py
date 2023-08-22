@@ -40,7 +40,7 @@ def fetch_data_from_api(api_url):
         return None
     
 
-def download_audio_files_parallel(urls, max_workers=10):
+def download_audio_files_parallel(urls, max_workers=5):
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
         future_to_url = {executor.submit(download_audio_from_api, url): url for url in urls}
         for future in concurrent.futures.as_completed(future_to_url):
@@ -51,15 +51,22 @@ def download_audio_files_parallel(urls, max_workers=10):
                 print(f"Error occurred while downloading audio from {url}: {e}")
 
 # Example usage
-api_url = "https://harkaudio.com/api/v0/external/getPodcastBySlug?podcast=waveform-the-mkbhd-podcast-vox-media-podcast-network"
-data = fetch_data_from_api(api_url)
-audio_files=[]
-if data:
-    podcasts = data['podcasts']
-    for podcast in podcasts:
-        audio_url = podcast.get('s3audioUrl')
-        audio_files.append(audio_url)
 
+def download_files():
+    api_url = "https://harkaudio.com/api/v0/external/getPodcastBySlug?podcast=waveform-the-mkbhd-podcast-vox-media-podcast-network"
+    data = fetch_data_from_api(api_url)    
+    audio_files=[]
+    total_duration = 0
+    create_adio_dir = 'mkdir audio'
+    os.system(create_adio_dir)
+    if data:
+        podcasts = data['podcasts']
+        for podcast in podcasts:
+            total_duration += podcast.get('duration')
+            audio_url = podcast.get('s3audioUrl')
+            if total_duration <= 360000:
+                audio_files.append(audio_url)
+    print(f"{len(audio_files)}")
+    download_audio_files_parallel(audio_files)
 
-download_audio_files_parallel(audio_files)
-
+# download_files()

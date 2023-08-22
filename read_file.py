@@ -1,6 +1,7 @@
 import json, csv
 from mp3_to_text import audio_to_transcript
-import os
+from download_audio_files import download_files
+import os, time
 
 def correct_time_format(time):    
     if time > 60:
@@ -41,6 +42,8 @@ def saving_transcript(text_file_path, csv_file_path,audio):
         writer.writerows(segment_list)
 
 if __name__== "__main__":
+    start_script_time = time.time()
+    download_files()
     command = "mkdir transcripts csv_transcripts_files"
     if not (os.path.exists('transcripts') and os.path.exists('csv_transcripts_files')):    
         os.system(command)
@@ -49,13 +52,15 @@ if __name__== "__main__":
     folder_path = os.path.join(current_directory, 'audio')
     dir_list = os.listdir(folder_path)[:21] #[:21], [21:41], [41:61], [61:81], [81:101]
     print(dir_list)
+    
     for file in dir_list:
         audio_file = "audio/"+file
         file = file.split('.')[0]
         text_file = "transcripts/"+file+".txt"
         text_file_with_time = "csv_transcripts_files/"+file+".csv"
         saving_transcript(text_file, text_file_with_time,audio_file)
-
+    end_script_time = time.time()
+    print(f'total conversion time : {(end_script_time-start_script_time)/60}')
     # delete_directory = "rm -r transcripts csv_transcripts_files"
     # os.system(delete_directory)
 

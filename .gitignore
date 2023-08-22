@@ -1,6 +1,6 @@
 transcriptenv
 openaienv
-audio
+audio/*.mp3
 text_file.txt
 text_files
 transcripts/*
