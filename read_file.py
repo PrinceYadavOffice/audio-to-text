@@ -1,4 +1,5 @@
 import json, csv
+import logging
 from mp3_to_text import audio_to_transcript
 from download_audio_files import download_files
 import os, time
@@ -60,7 +61,7 @@ if __name__== "__main__":
         text_file_with_time = "csv_transcripts_files/"+file+".csv"
         saving_transcript(text_file, text_file_with_time,audio_file)
     end_script_time = time.time()
-    print(f'total conversion time : {(end_script_time-start_script_time)/60}')
+    logging.info(f'total conversion time : {(end_script_time-start_script_time)/60}')
     # delete_directory = "rm -r transcripts csv_transcripts_files"
     # os.system(delete_directory)
 
