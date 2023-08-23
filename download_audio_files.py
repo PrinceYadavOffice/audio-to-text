@@ -2,7 +2,6 @@ import os
 import requests
 import concurrent.futures
 from urllib.parse import urlparse
-import logging
 
 
 
@@ -67,7 +66,7 @@ def download_files():
             audio_url = podcast.get('s3audioUrl')
             if total_duration <= 360000:
                 audio_files.append(audio_url)
-    logging.info(f"{len(audio_files)}")
+    print(f"{len(audio_files)}")
     download_audio_files_parallel(audio_files)
 
 # download_files()
