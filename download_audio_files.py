@@ -52,21 +52,27 @@ def download_audio_files_parallel(urls, max_workers=5):
 
 # Example usage
 
-def download_files():
-    api_url = "https://harkaudio.com/api/v0/external/getPodcastBySlug?podcast=waveform-the-mkbhd-podcast-vox-media-podcast-network"
-    data = fetch_data_from_api(api_url)    
-    audio_files=[]
-    total_duration = 0
-    create_adio_dir = 'mkdir audio'
-    os.system(create_adio_dir)
-    if data:
-        podcasts = data['podcasts']
-        for podcast in podcasts:
-            total_duration += podcast.get('duration')
-            audio_url = podcast.get('s3audioUrl')
-            if total_duration <= 360000:
-                audio_files.append(audio_url)
-    print(f"{len(audio_files)}")
-    download_audio_files_parallel(audio_files)
+def download_files(audio_url):
+    try:
+        # api_url = "https://harkaudio.com/api/v0/external/getPodcastBySlug?podcast=waveform-the-mkbhd-podcast-vox-media-podcast-network"
+        api_url = audio_url
+        data = fetch_data_from_api(api_url)    
+        audio_files=[]
+        total_duration = 0
+        create_adio_dir = 'mkdir audio'
+        os.system(create_adio_dir)
+        if data:
+            podcasts = data['podcasts']
+            podacast_slug = data['podcastSlug']
+            for podcast in podcasts:
+                total_duration += podcast.get('duration')
+                audio_url = podcast.get('s3audioUrl')
+                if total_duration <= 15000:
+                    audio_files.append(audio_url)
+        print(f"{len(audio_files)}")
+        download_audio_files_parallel(audio_files)
+        return podacast_slug
+    except Exception as e:
+        print(f"Error while downloading audio files {e}")
 
 # download_files()
