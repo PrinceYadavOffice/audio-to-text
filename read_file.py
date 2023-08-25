@@ -5,9 +5,6 @@ import os, time
 import boto3
 import multiprocessing
 
-ACCESS_KEY = 'AKIAQMCAGDHAHIPD3BWD'
-SECRET_ACCESS_KEY = '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'
-REGION = 'ap-south-1'
 
 session = boto3.Session(
 aws_access_key_id=ACCESS_KEY,
