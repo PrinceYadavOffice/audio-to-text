@@ -4,7 +4,6 @@ import concurrent.futures
 from urllib.parse import urlparse
 
 
-
 def extract_filename_from_s3_url(s3_url):
     parsed_url = urlparse(s3_url)
     path = parsed_url.path
@@ -50,7 +49,6 @@ def download_audio_files_parallel(urls, max_workers=5):
             except Exception as e:
                 print(f"Error occurred while downloading audio from {url}: {e}")
 
-# Example usage
 
 def download_files(audio_url):
     try:
@@ -69,7 +67,8 @@ def download_files(audio_url):
                 audio_url = podcast.get('s3audioUrl')
                 if total_duration <= 15000:
                     audio_files.append(audio_url)
-        print(f"{len(audio_files)}")
+
+        print(f"Total audio files :{len(audio_files)}")
         download_audio_files_parallel(audio_files)
         return podacast_slug
     except Exception as e:
